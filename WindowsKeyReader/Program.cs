@@ -26,7 +26,10 @@ namespace WindowsKeyReader
         private delegate bool EventHandler(CtrlType had);
         static EventHandler _handler;
         
-
+        /// <summary>
+        //
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             var handle = GetConsoleWindow();
