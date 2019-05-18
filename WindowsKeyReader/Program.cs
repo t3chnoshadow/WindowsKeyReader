@@ -33,6 +33,7 @@ namespace WindowsKeyReader
                     GetModuleHandle(curModule.ModuleName), 0);
             }
         }
+        //lol
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
         string line ="";
