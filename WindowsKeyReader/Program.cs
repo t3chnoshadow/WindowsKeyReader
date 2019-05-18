@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;//import of dlls
 using System.Diagnostics;//used to build hooks
 using System.Windows.Forms;//converting of keystrokes into readable keys
 using System.IO;
+using System.Drawing;
 
 namespace WindowsKeyReader
 {
@@ -25,12 +26,6 @@ namespace WindowsKeyReader
             hook = SetHook(proc);
             Application.Run();
             UnhookWindowsHookEx(hook);
-
-
-
-
-
-
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -90,9 +85,30 @@ namespace WindowsKeyReader
                     }
                 }
                 catch { }
+                try
+                {
+
+                    if ((Keys)vkCode == Keys.Left)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X - 5, Cursor.Position.Y);
+                    }
+                    if ((Keys)vkCode == Keys.Right)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X + 5, Cursor.Position.Y);
+                    }
+                    if ((Keys)vkCode == Keys.Up)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X , Cursor.Position.Y - 5 );
+                    }
+                    if ((Keys)vkCode == Keys.Down)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X , Cursor.Position.Y + 5);
+                    }
+                }
+                catch { }
 
                 ////////////////////////////////////////////////////////////////
-                Console.WriteLine((Keys)vkCode);
+                
             }
 
             return CallNextHookEx(hook, nCode, wParam, lParam);
@@ -110,7 +126,35 @@ namespace WindowsKeyReader
         [DllImport("kernel32.dll")]// handles memory management, input/output operations, and interrupts.
         private static extern IntPtr GetModuleHandle(String lpModuleName);
 
- 
+        //mouse movement
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public static implicit operator Point(POINT point)
+            {
+                return new Point(point.X, point.Y);
+            }
+        }
+
+
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
+        public static Point GetCursorPosition()
+        {
+            POINT lpPoint;
+            GetCursorPos(out lpPoint);
+            
+
+            return lpPoint;
+        }
+
+
 
 
     }
